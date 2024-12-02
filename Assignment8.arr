@@ -27,3 +27,33 @@ end
 data Binding:
   | binding(name :: String, val :: Value)
 end
+
+
+#Interp
+fun interp(expr, env):
+  cases(Expr) exp:
+    | NumC(n) => NumV(n)
+    | IdC(n) => lookup(n, env)
+    | StrC(s) => StrV(s)
+    | IfC(expr1, expr2, expr3) => 
+      condition = interp(expr1, env)
+      cases(Value) condition:
+          # if its a boolean
+
+        | BoolV(b) => 
+          if b:
+            interp(expr2, env)
+          else:
+            interp(expr3,env)
+        #add an error if its not a boolean
+
+
+          end 
+      end
+  end
+end
+
+
+
+
+#need a lookup function
