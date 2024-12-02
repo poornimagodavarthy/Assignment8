@@ -12,6 +12,9 @@ data ExprC:
   | StrC(str :: String)    
 end
 
+# Env definition
+type Env = List<Binding>
+
 # Value type data def
 data Value:
   | NumV(n :: Number)
@@ -19,4 +22,8 @@ data Value:
   | StrV(str :: String)
   | CloV(args :: List<String>, body :: ExprC, env :: Env) 
   | PrimV(op :: String)
+end
+
+data Binding:
+  | binding(name :: String, val :: Value)
 end
