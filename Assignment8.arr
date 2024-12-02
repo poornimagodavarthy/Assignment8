@@ -31,7 +31,7 @@ end
 
 #Interp
 fun interp(expr, env):
-  cases(Expr) exp:
+  cases(ExprC) exp:
     | NumC(n) => NumV(n)
     | IdC(n) => lookup(n, env)
     | StrC(s) => StrV(s)
