@@ -63,5 +63,18 @@ fun interp(expr, env):
           end 
         |other => raise("interp: condition not boolean")
       end
-  end
+    | LamC(args, body) => CloV(args, body, env)
+    | AppC(func, args) => 
+      fun-val = interp(func, env)
+      cases(Value) fun-val:
+        | CloV(arg-names, func-body, closure-env) =>
+          if not(num-equal(arg-names.length, args.length)):
+            raise("length of args does not match params")
+          else:
+            print("placeholder")
+          end
+          
+
+          end
+  end 
 end
