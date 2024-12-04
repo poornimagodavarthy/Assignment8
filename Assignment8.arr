@@ -78,3 +78,33 @@ fun interp(expr, env):
           end
   end 
 end
+
+#serialize: converts a Value to string representation
+fun serialize(val):
+  cases(Value) val:
+    | NumV(n) => tostring(n)
+    | BoolV(bool) => if bool: true else: false
+      end
+    | CloV(a, b, e) => "#<procedure>"
+    | PrimV(s) => "#<primop>"
+    | StrV(s) => tostring(s)
+      
+  end
+  
+end
+
+
+
+
+
+
+check:
+  "Hello " + "World!" is "Hello World!"
+  serialize(NumV(4)) is "4"
+  serialize(BoolV(false)) is false
+  serialize(BoolV(true)) is true
+  serialize(CloV([list: "x"], NumC(8),[list: binding("y", NumV(1))] )) is "#<procedure>"
+  serialize(PrimV("+")) is "#<primop>"
+  serialize(StrV("myString")) is "myString"
+  
+end
