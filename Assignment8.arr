@@ -93,6 +93,25 @@ fun serialize(val):
   
 end
 
+#check-duplicates
+#helper funct to check duplicates of variable names
+fun check-duplicates(names):
+  cases(List<String>) names:
+    | empty => false
+    | link(f, r) => contains(f, r) or check-duplicates(r)
+      
+  end
+end
+
+#contains?
+# Takes a symbol and a list of symbols and returns true if the symbol is in the list
+fun contains(s, lst):
+  cases(List<String>) lst:
+    | empty => false
+    | link(f, r) => equal-now(f,s) or contains(s, r)
+  end
+
+end
 
 
 
@@ -108,3 +127,16 @@ check:
   serialize(StrV("myString")) is "myString"
   
 end
+
+check: 
+  check-duplicates([list: "a", "b", "c"]) is false 
+  check-duplicates([list: "a", "a", "c"]) is true 
+    
+end
+
+
+check:
+  contains("x", [list: "a", "b", "c"]) is false
+  contains("x", [list: "a", "x", "c"]) is true
+end
+    
