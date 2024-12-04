@@ -26,6 +26,29 @@ data Binding:
   | binding(name :: String, val :: Value)
 end
 
+
+#top-env: global bindings for booleans
+var top-env = [list:
+  binding("true", BoolV(true)),
+  binding("false", BoolV(false)),
+  binding("+", PrimV("+")),
+  binding("-", PrimV("-")),
+  binding("*", PrimV("*")),
+  binding("/", PrimV("/")),
+  binding("if", PrimV("if")),
+  binding("<=", PrimV("<=")),
+  binding("equal?", PrimV("equal?")),
+  binding("error", PrimV("error")),
+  binding("println", PrimV("println")),
+  binding("read-num", PrimV("read-num")),
+  binding("read-str", PrimV("read-str")),
+  binding("seq", PrimV("seq")),
+  binding("++", PrimV("++")),
+  binding("and", PrimV("and")),
+  binding(">", PrimV(">")),
+  binding("or", PrimV("or"))]
+
+
 #lookup function
 fun lookup(str, env):
   cases (Env) env:
