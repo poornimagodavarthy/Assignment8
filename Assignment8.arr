@@ -3,7 +3,6 @@ import Equal from equality
 type Env = List<Binding>
 
 
-
 #DATA DEFINITIONS
 
 # ExprC data def
@@ -82,6 +81,13 @@ fun interp(expr, env):
   end 
 end
 
+#missing read-num, read-str, seq, equal?
+#seems like pyret can't take in user input, so can't do read-num and read-str
+#do we need seq?
+#changed ++ to the way i did it in my assignment
+#need to write test cases
+
+
 fun apply-primop(op, args):
   cases(List) args:
     | link(frst, rst) =>
@@ -102,7 +108,26 @@ fun apply-primop(op, args):
         BoolV(L.get(args, 0) <= L.get(args, 1))
       else if op == "println":
         print(L.get(args, 0))
-      else if op == "read-num":
+      else if op == "error":
+        raise("given user-error")
+      else if op == "and":
+        BoolV((L.get(args, 0) and L.get(args, 1)))
+      else if op == ">":
+        BoolV(L.get(args, 0) > L.get(args, 1))
+      else if op == "or":
+        BoolV(L.get(args, 0) or L.get(args, 1))
+      else if op == "++":
+        #changed this to how i did it in my assignment, using a map and a foldr
+        parts = map(lam(a) : 
+            cases(Value) a:
+              | NumV(n) => num-to-string(n)
+              | StrV(s) => s
+              | other => raise("unsupported type for ++")
+          end 
+          end, args)
+        StrV(foldr(string-append, "", parts))
+                
+              
         
       #else if op == "equal?":
         #BoolV(_equals(L.get(args, 0), L.get(args, 1)))
