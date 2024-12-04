@@ -1,5 +1,8 @@
-#Assignment 5 in Pyret
+import lists as L
+import Equal from equality
 type Env = List<Binding>
+
+
 
 #DATA DEFINITIONS
 
@@ -77,4 +80,39 @@ fun interp(expr, env):
 
           end
   end 
+end
+
+fun apply-primop(op, args):
+  cases(List) args:
+    | link(frst, rst) =>
+      if op == "+":
+        NumV(L.get(args, 0) + L.get(args, 1))
+      else if op == "-":
+        NumV(L.get(args, 0) - L.get(args, 1))
+      else if op == "*":
+        NumV(L.get(args, 0) * L.get(args, 1))
+      
+      else if op == "/":
+        if L.get(args, 1) == 0:
+          raise("can't divide by 0")
+        else:
+            NumV(L.get(args, 0) / L.get(args, 1))
+        end
+      else if op == "<=":
+        BoolV(L.get(args, 0) <= L.get(args, 1))
+      else if op == "println":
+        print(L.get(args, 0))
+      else if op == "read-num":
+        
+      #else if op == "equal?":
+        #BoolV(_equals(L.get(args, 0), L.get(args, 1)))
+        
+        #i don't think pyret can read input from user?? so no read-num or read-str
+        #do we have to do seq and ++
+      else:
+          raise("invalid op syntax")
+       
+      end
+  end
+         
 end
