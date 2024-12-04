@@ -113,12 +113,17 @@ fun contains(s, lst):
 
 end
 
-
-
-
+#valid-id?
+# Takes a symbol and returns true if not a reserved id, false otherwise
+fun vaild-id(s):
+  #change to checking if a single letter
+  is-string(s) and not(reserved-ids.member(s))
+end
 
 check:
   "Hello " + "World!" is "Hello World!"
+  
+  #serialize
   serialize(NumV(4)) is "4"
   serialize(BoolV(false)) is false
   serialize(BoolV(true)) is true
@@ -126,17 +131,16 @@ check:
   serialize(PrimV("+")) is "#<primop>"
   serialize(StrV("myString")) is "myString"
   
-end
-
-check: 
+  #check-duplicates
   check-duplicates([list: "a", "b", "c"]) is false 
   check-duplicates([list: "a", "a", "c"]) is true 
-    
-end
-
-
-check:
+  
+  #contains
   contains("x", [list: "a", "b", "c"]) is false
   contains("x", [list: "a", "x", "c"]) is true
+  
+  #vaild-id
+  vaild-id("f") is true
+  vaild-id("if") is false
+  
 end
-    
