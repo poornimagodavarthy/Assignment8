@@ -1,3 +1,7 @@
+
+include s-exp
+import s-exp as S
+
 #Assignment 5 in Pyret
 type Env = List<Binding>
 
@@ -26,7 +30,6 @@ data Binding:
   | binding(name :: String, val :: Value)
 end
 
-
 #top-env: global bindings for booleans
 var top-env = [list:
   binding("true", BoolV(true)),
@@ -48,6 +51,55 @@ var top-env = [list:
   binding(">", PrimV(">")),
   binding("or", PrimV("or"))]
 
+
+#reserved symbols
+reserved-ids = [list:"=>","if","=","bind"]
+
+
+p = S.read-s-exp
+
+check:
+  p("-5") is s-num(-5)
+end
+
+ 
+#parser: parses S-expressions into ExprC
+fun parse(exp):
+  var s = exp.read-s-exp
+  cases(s-exp) s:
+    | s-sum(n) => NumC(n)
+    | vaild-id id => IdC(id)
+    | is-string(s) => StrC(s)
+    | [list: "if", expr1, expr2, expr3] => IfC(parse(expr1), parse(expr2), parse(expr3))
+    | [list: "bind", [list: vaild-id(name) "=" vals]... body] => 
+      
+  end
+  
+end
+
+
+  #|
+;;parser: parses S-expressions into ExprC
+(define (parse [exp : Sexp]) : ExprC
+  (match exp
+    [(? real?) (NumC exp)]
+    [(? valid-id? id) (IdC id)]
+    [(? string? s) (StrC s)]
+    [(list 'if expr1 expr2 expr3)
+     (IfC (parse expr1) (parse expr2) (parse expr3))]
+    [(list 'bind (list (? valid-id? names) '= vals)... body )
+     (if (check-duplicates (cast names (Listof Symbol)))
+         (error 'parse "AAQZ has no matching names, gave: ~e" names)
+         (AppC (LamC (cast names (Listof Symbol)) (parse body) )
+               (map parse (cast vals (Listof Sexp)))))]
+    [(list (list (? valid-id? s) ...) '=> e )
+     (if (check-duplicates (cast s (Listof Symbol)))
+         (error 'parse "AAQZ has no matching syms, gave: ~e" s)
+         (LamC (cast s (Listof Symbol)) (parse e)))]
+    [(list func args ...) (AppC (parse func) (map parse args))]
+    [other (error 'parse "AAQZ expected valid syntax, got ~e" other)]))
+
+     |#
 
 #lookup function
 fun lookup(str, env):
@@ -143,6 +195,15 @@ fun vaild-id(s):
   is-string(s) and not(reserved-ids.member(s))
 end
 
+
+      
+      
+      
+#apply-primop
+
+
+
+
 check:
   "Hello " + "World!" is "Hello World!"
   
@@ -165,5 +226,16 @@ check:
   #vaild-id
   vaild-id("f") is true
   vaild-id("if") is false
+    
+    
+  #parser
+    #parse() is 
+    
   
 end
+    
+
+    # comment
+#map
+# could use block for sequences
+#raises for error checking
