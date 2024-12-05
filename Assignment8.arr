@@ -66,10 +66,11 @@ end
 #parser: parses S-expressions into ExprC
 fun parse(exp):
   var s = exp.read-s-exp
-  cases(s-exp) s:
+  cases(S-exp) s:
     | s-sum(n) => NumC(n)
-    | vaild-id id => IdC(id)
+    | vaild-id(id) => IdC(id)
     | is-string(s) => StrC(s)
+      #should be an s-list
     | [list: "if", expr1, expr2, expr3] => IfC(parse(expr1), parse(expr2), parse(expr3))
     | [list: "bind", [list: vaild-id(name) "=" vals]... body] => 
       
