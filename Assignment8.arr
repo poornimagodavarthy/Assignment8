@@ -262,6 +262,7 @@ check:
   apply-primop("+", [list: NumV(6), NumV(4)]) is NumV(10)
   apply-primop("-", [list: NumV(6), NumV(4)]) is NumV(2)
   apply-primop("/", [list: NumV(6), NumV(2)]) is NumV(3)
+  apply-primop("/", [list: NumV(2), NumV(0)]) raises ("can't divide by 0")
   apply-primop("*", [list: NumV(6), NumV(4)]) is NumV(24)
   apply-primop("<=", [list: NumV(6), NumV(4)]) is BoolV(false)
   apply-primop("error", empty) raises ("given user-error") 
