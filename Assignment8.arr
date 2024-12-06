@@ -75,12 +75,24 @@ fun interp(expr, env):
           if not(num-equal(arg-names.length, args.length)):
             raise("length of args does not match params")
           else:
-            print("placeholder")
+            evaluated-args = map({(arg): interp(arg, env)}, args)
+            # Extend the closure's environment with parameter bindings
+            extended-env = foldl(
+              {(param, arg-val, acc-env): link(binding(param, arg-val), acc-env)},
+              closure-env,
+              arg-names,
+              evaluated-args)
+            interp(func-body, extended-env)
           end
-          
+        |PrimV(op) => 
+          evaluated-args = map({(arg): interp(arg, env)}, args)
+          #apply-primop(op, evaluated-args)
+          print("add apply primop")
 
-          end
+
+      end
   end 
+
 end
 
 
@@ -284,4 +296,5 @@ check:
   apply-primop("equal?", [list: BoolV(true), BoolV(false)]) is BoolV(false)
   apply-primop("equal?", [list: StrV("hii"), StrV("hii")]) is BoolV(true)
   apply-primop("equal?", [list: StrV("hii"), StrV("hey")]) is BoolV(false)
+
 end
